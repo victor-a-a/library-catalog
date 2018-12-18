@@ -1,5 +1,7 @@
 #lang web-server/insta
 
+(require "model.rkt")
+
 (define (start request)
   (response/xexpr
    '(html
