@@ -60,5 +60,37 @@
               (loop sb tail acc))]))}
     (if (null? (loop string keys '())) 'None (Some (loop string keys '())))))
 
+;; new-map: A fuction that creates a new, empty hash map of the the given size.
+(: new-map : Integer (String -> Integer) -> HashMap)
+(define (new-map size hash-function)
+  (HashMap hash-function
+           (make-vector size (cast '() Bucket))))
+
+;; lookup: A function used to find a specific entry in the hash map.
+(: lookup : String HashMap -> (Optional Entry))
+(define (lookup key map)
+  (local
+    {(: loop : Bucket -> (Optional Entry))
+     (define (loop bucket)
+       (match bucket
+         ['() 'None]
+         [(cons head tail)
+          (if (string=? key (Entry-key head)) (Some head) (loop tail))]))}
+    (match map
+      [(HashMap hash buckets)
+       (loop
+        (vector-ref buckets (remainder (hash key) (vector-length buckets))))])))
+
+;; insert!: A function used to insert a given entry in a given hash map.
+(: insert! : Entry HashMap -> Void)
+(define (insert! entry map)
+  (match* (entry map)
+      [((Entry key _) (HashMap hash buckets))
+       (vector-set!
+        buckets (remainder (hash key) (vector-length buckets))
+        (cons
+         entry
+         (vector-ref buckets (remainder (hash key) (vector-length buckets)))))]))
+
 ;; ===== Exporting =====
 ;; EXPORT FUNCTIONS HERE
