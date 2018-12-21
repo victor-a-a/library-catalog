@@ -3,11 +3,32 @@
 (require racket/list)
 
 ;; ===== Data Structures =====
-(define-struct (a) Some ([value : a]) #:transparent)
+(define-struct (a) Some
+  ([value : a]) #:transparent)
 
-(define-type (Optional a) (U 'None (Some a)))
+(define-type (Optional a)
+  (U 'None (Some a)))
 
-;; ===== Variables =====
+(define-struct Book
+  ([title : String]
+   [author : String]
+   [isbn : String]
+   [subject : String]
+   [owner : String]
+   [status : String]
+   [location : String]
+   [cover : String]) #:transparent)
+
+(define-struct Entry
+  ([key : String]
+   [books : (Listof Book)]) #:transparent)
+
+(define-type Bucket
+  (Listof Entry))
+
+(define-struct HashMap
+  ([hash : (String -> Integer)]
+   [buckets : (Vectorof Bucket)]) #:transparent)
 
 ;; ===== Functions =====
 ;; substring?: A function that takes in a string and determines if it is a
