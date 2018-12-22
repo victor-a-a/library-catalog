@@ -92,5 +92,76 @@
          entry
          (vector-ref buckets (remainder (hash key) (vector-length buckets)))))]))
 
+;; bulk-lookup: A fuction that looks up a list of keys and returns a list of entries
+(: bulk-lookup : (Listof String) HashMap -> (Listof Entry))
+(define (bulk-lookup keys map)
+  (foldr
+   (lambda ([key : String][entries : (Listof Entry)])
+     (match (lookup key map)
+       ['None entries]
+       [(Some entry) (cons entry entries)]))
+   '() keys))
+
+;; bulk-insert!: A function that inserts a list of entries in a given map
+(: bulk-insert! : (Listof Entry) HashMap -> Void)
+(define (bulk-insert! entries map)
+  (match entries
+    ['() (void 'end-here)]
+    [(cons head tail)
+     (begin
+       (insert! head map)
+       (bulk-insert! tail map))]))
+
+;; get-keys: A function that gets all the keys of all the entries in a given map
+(: get-keys : HashMap -> (Listof String))
+(define (get-keys map)
+  (local
+    {(: loop : HashMap Integer (Listof String) -> (Listof String))
+     (define (loop m counter accumulator)
+       (if (<= (add1 counter) (vector-length (HashMap-buckets m)))
+           (loop m (add1 counter)
+                 (foldr
+                  (lambda ([entry : Entry][acc : (Listof String)])
+                    (match entry
+                      [(Entry key _) (cons key acc)]))
+                  accumulator
+                  (vector-ref (HashMap-buckets m) counter)))
+           accumulator))}
+    (loop map 0 '())))
+
+;; string->book: A function that takes in a formated string and returns a Book
+(: string->book : String -> Book)
+(define (string->book string)
+  (match (string-split string "#d#d#d#d#d")
+    [(list title author isbn subject owner status location cover)
+     (Book title author isbn subject owner status location cover)]))
+
+;; string->entry: A function that takes in a formated string and returns an Entry
+(: string->entry : String -> Entry)
+(define (string->entry string)
+  (match (string-split string "#k#k#k#k#k")
+    [(list key books-string)
+     (Entry key
+            (foldr
+             (lambda ([book-string : String][book-list : (Listof Book)])
+               (cons (string->book book-string) book-list))
+             '() (string-split books-string "#b#b#b#b#b")))]))
+
+;; load-entries: A function that generates a list of entries from a specified txt file
+(: load-entries : String -> (Listof Entry))
+(define (load-entries file-path)
+  (foldr
+   (lambda ([entry-string : String][entry-list : (Listof Entry)])
+     (cons (string->entry entry-string) entry-list))
+   '() (string-split (port->string (open-input-file file-path)) "#e#e#e#e#e")))
+
+;; hash: A function to hash the key into an integer
+(: hash-default : String -> Integer)
+(define (hash-default key)
+  (foldr
+   (lambda ([char : Integer][acc : Integer])
+     (exact-ceiling (/ (* char acc 67867967) 49979687)))
+   1 (map char->integer (string->list key))))
+
 ;; ===== Exporting =====
-;; EXPORT FUNCTIONS HERE
+(provide (all-defined-out))
