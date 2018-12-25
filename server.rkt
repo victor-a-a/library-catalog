@@ -55,12 +55,31 @@
    (extract-binding/single 'search-by bindings)
    (extract-binding/single 'search-request bindings)))
 
-;; search : (listof string) -> (listof entry)
+;; search : (listof string) -> (optional (listof entry))
 (define (search item)
   (match item
     [(list search-by search-request)
-     (match* search-by (string->key search-request)
-       
+     (match search-by
+       ["title"
+        (if (symbol? (string->key search-request title-keys)) 'None
+            (bulk-lookup
+             (Some-value (string->key search-request title-keys))
+             title-hash))]
+       ["author"
+        (if (symbol? (string->key search-request author-keys)) 'None
+            (bulk-lookup
+             (Some-value (string->key search-request author-keys))
+             author-hash))]
+       ["isbn"
+        (if (symbol? (string->key search-request isbn-keys)) 'None
+            (bulk-lookup
+             (Some-value (string->key search-request isbn-keys))
+             isbn-hash))]
+       ["owner"
+        (if (symbol? (string->key search-request owner-keys)) 'None
+            (bulk-lookup
+             (Some-value (string->key search-request owner-keys))
+             owner-hash))])]))
 
 ;; ===== Rendering =====
 (define (start request)
