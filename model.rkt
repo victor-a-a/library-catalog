@@ -150,10 +150,13 @@
 ;; load-entries: A function that generates a list of entries from a specified txt file
 (: load-entries : String -> (Listof Entry))
 (define (load-entries file-path)
-  (foldr
-   (lambda ([entry-string : String][entry-list : (Listof Entry)])
-     (cons (string->entry entry-string) entry-list))
-   '() (string-split (port->string (open-input-file file-path)) "#e#e#e#e#e")))
+  (if
+   (string=? (port->string (open-input-file file-path)) "")
+   '()
+   (foldr
+    (lambda ([entry-string : String][entry-list : (Listof Entry)])
+      (cons (string->entry entry-string) entry-list))
+    '() (string-split (port->string (open-input-file file-path)) "#e#e#e#e#e"))))
 
 ;; hash: A function to hash the key into an integer
 (: hash-default : String -> Integer)
