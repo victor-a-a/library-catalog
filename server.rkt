@@ -115,7 +115,7 @@
   (match book
     [(Book title author isbn subject owner status location cover)
      `(div ((class "book"))
-           (h2 ,title)
+           (h3 ,title)
            (img ((src ,cover) (alt "Image not found.")))
            (p "By " ,author (br)
               ,subject (br)
@@ -133,29 +133,28 @@
     (response/xexpr
      '(html
        (head
-        (title "Racket Library")
+        (title "RKT-LIB")
         (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body
-        (h1 "Racket Library")
+        (h1 "RKT-LIB")
         (h2 "Search")
         (form
-         (input ((type "radio") (name "search-by") (value "title"))) "Title"
-         (input ((type "radio") (name "search-by") (value "author"))) "Author"
-         (input ((type "radio") (name "search-by") (value "isbn"))) "ISBN"
-         (input ((type "radio") (name "search-by") (value "owner"))) "Owner"
+         (input ((type "radio") (name "search-by") (value "title"))) (bdi "Title")
+         (input ((type "radio") (name "search-by") (value "author"))) (bdi "Author")
+         (input ((type "radio") (name "search-by") (value "isbn"))) (bdi "ISBN")
+         (input ((type "radio") (name "search-by") (value "owner"))) (bdi "Owner")
          (br)
-         (input ((type "text") (name "search-request")))
-         ;;(input ((type "submit") (value "Submit"))))))))
-         )))))
+         (input ((type "text") (name "search-request"))))))))
 
 ;; no-results : requests -> response
 (define (no-results request)
   (define (response-generator embed/url)
     (response/xexpr
      `(html
-       (head (title "Racket Library"))
+       (head (title "RKT-LIB"))
        (body
-        (h1 "No matching results found.")
+        (h1 "RKT-LIB")
+        (h2 "No matching results found")
         (p (string-append "Your search request did not match any books.  "
                           "Please try again with the following suggestions in mind:"))
         (ul
@@ -171,9 +170,10 @@
   (define (response-generator embed/url)
     (response/xexpr
      `(html
-       (head (title "Racket Library"))
+       (head (title "RKT-LIB"))
        (body
-        (h1 "Results")
+        (h1 "RKT-LIB")
+        (h2 "Results")
         ,(render-books
           (entries->books
            (search (parse-search (request-bindings request)))))

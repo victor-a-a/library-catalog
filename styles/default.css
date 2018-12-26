@@ -17,3 +17,18 @@ h2 {
 	font-size: 30;
 	font-family: Georgia, serif;
 }
+
+input {
+	margin-left: 20;
+	margin-bottom: 20;
+	margin-right: 5;
+	color: #E84A5F;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+bdi {
+	color: white;
+	font-family: Helvetica, sans-serif;
+	font-weight: bold;
+}
