@@ -1,0 +1,19 @@
+body {
+	margin: 30;
+	background-color: #E84A5F;
+}
+
+h1 {
+	padding: 10;
+	border-bottom-style: solid;
+	border-bottom-color: white;
+	color: white;
+	font-size: 60;
+	font-family: Georgia, serif;
+}
+
+h2 {
+	color: white;
+	font-size: 30;
+	font-family: Georgia, serif;
+}

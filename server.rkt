@@ -132,7 +132,9 @@
 (define (home-page request)
     (response/xexpr
      '(html
-       (head (title "Racket Library"))
+       (head
+        (title "Racket Library")
+        (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body
         (h1 "Racket Library")
         (h2 "Search")
@@ -143,7 +145,8 @@
          (input ((type "radio") (name "search-by") (value "owner"))) "Owner"
          (br)
          (input ((type "text") (name "search-request")))
-         (input ((type "submit") (value "Submit"))))))))
+         ;;(input ((type "submit") (value "Submit"))))))))
+         )))))
 
 ;; no-results : requests -> response
 (define (no-results request)
@@ -185,3 +188,5 @@
     (if (can-search? (request-bindings request))
         (results? request)
         (home-page request))))
+
+(static-files-path "styles")
