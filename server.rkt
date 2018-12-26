@@ -25,8 +25,16 @@
 (define owner-keys (get-keys owner-hash))
 
 ;; ===== Functions =====
+;; refresh? : void -> void
+;; A function used to determine if the hash tables should be refreshed,
+;; and acts accordingly
+(define (refresh?)
+  (match (seconds->date (current-seconds))
+    [(date* 15 14 03 _ _ _ _ _ _ _ _ _) (refresh)]
+    [_ (void 'end-here)]))
+
 ;; refresh : void -> void
-;;A function to refresh the hash tables
+;; A function to refresh the hash tables
 (define (refresh)
   (set! title-hash (new-map 150 hash-default))
   (bulk-insert! (load-entries "data/title-hash.txt") title-hash)
@@ -56,6 +64,8 @@
    (extract-binding/single 'search-request bindings)))
 
 ;; search : (listof string) -> (optional (listof entry))
+;; A function to search for a given item by a given field among
+;; all the hashes
 (define (search item)
   (match item
     [(list search-by search-request)
@@ -81,23 +91,97 @@
              (Some-value (string->key search-request owner-keys))
              owner-hash))])]))
 
-;; ===== Rendering =====
-(define (start request)
-  (if (can-search? (request-bindings request))
-      (error "Under construction: Working on rendering page.")
-  (response/xexpr
-   '(html
-     (head (title "Racket Library"))
-     (body
-      (h1 "Under construction")
-      (h2 "Search")
-      (form
-       (input ((type "radio") (name "search-by") (value "title"))) "Title"
-       (input ((type "radio") (name "search-by") (value "author"))) "Author"
-       (input ((type "radio") (name "search-by") (value "isbn"))) "ISBN"
-       (input ((type "radio") (name "search-by") (value "owner"))) "Owner"
-       (br)
-       (input ((type "text") (name "search-request")))
-       (input ((type "submit") (value "Submit")))))))))
+;; entries->books : (listof entries) -> (listof books)
+;; A function to turn a list of entries into a list of books
+(define (entries->books entries)
+  (foldr
+   (lambda (entry books)
+     (match entry
+       [(Entry _ book) (append book books)]))
+   '() entries))
 
-;;(define item (extract-binding/single 'item (request-bindings request)))
+;; results? request -> response
+;; A function that determines if a search had matching results and
+;; redirects the user to the according page.
+(define (results? request)
+  (match (search (parse-search (request-bindings request)))
+          ['None (no-results request)]
+          [_ (results request)]))
+       
+;; ===== Rendering =====
+;; render-book : book -> xexpr
+;; A function to render the html representation of a book struct
+(define (render-book book)
+  (match book
+    [(Book title author isbn subject owner status location cover)
+     `(div ((class "book"))
+           (h2 ,title)
+           (img ((src ,cover) (alt "Image not found.")))
+           (p "By " ,author (br)
+              ,subject (br)
+              ,location " | " ,owner (br)
+              ,isbn " | " ,status))]))
+
+;; render-books : (listof book) -> xexper
+;; A function to render the html representation of list of books
+(define (render-books books)
+  `(div ((class "books"))
+        ,@(map render-book books)))
+
+;; home-page : request -> response
+(define (home-page request)
+    (response/xexpr
+     '(html
+       (head (title "Racket Library"))
+       (body
+        (h1 "Racket Library")
+        (h2 "Search")
+        (form
+         (input ((type "radio") (name "search-by") (value "title"))) "Title"
+         (input ((type "radio") (name "search-by") (value "author"))) "Author"
+         (input ((type "radio") (name "search-by") (value "isbn"))) "ISBN"
+         (input ((type "radio") (name "search-by") (value "owner"))) "Owner"
+         (br)
+         (input ((type "text") (name "search-request")))
+         (input ((type "submit") (value "Submit"))))))))
+
+;; no-results : requests -> response
+(define (no-results request)
+  (define (response-generator embed/url)
+    (response/xexpr
+     `(html
+       (head (title "Racket Library"))
+       (body
+        (h1 "No matching results found.")
+        (p (string-append "Your search request did not match any books.  "
+                          "Please try again with the following suggestions in mind:"))
+        (ul
+         (li "Make sure all words are spelled correctly.")
+         (li "Try different key words.")
+         (li "Try more general key words."))
+        (a ((href ,(embed/url start)))
+           "Return to search page...")))))
+  (send/suspend/dispatch response-generator))
+
+;; results : request -> response
+(define (results request)
+  (define (response-generator embed/url)
+    (response/xexpr
+     `(html
+       (head (title "Racket Library"))
+       (body
+        (h1 "Results")
+        ,(render-books
+          (entries->books
+           (search (parse-search (request-bindings request)))))
+        (a ((href ,(embed/url start)))
+           "Return to search page...")))))
+    (send/suspend/dispatch response-generator))
+        
+;; start : request -> response
+(define (start request)
+  (begin
+    (refresh?)
+    (if (can-search? (request-bindings request))
+        (results? request)
+        (home-page request))))
