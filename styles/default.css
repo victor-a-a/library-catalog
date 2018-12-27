@@ -22,6 +22,43 @@ h2 {
 	font-family: 'Fjalla One', sans-serif;
 }
 
+p {
+	color: white;
+	font-family: 'Cantarell', sans-serif;
+	font-size: 15;
+	font-weight: bold;
+}
+
+ul {
+	color: white;
+	font-family: 'Cantarell', sans-serif;
+	font-size: 15;
+	font-weight: bold;
+}
+
+/* Return Button */
+.return {
+	margin-top: 100;
+	margin-bottom: 50;
+	text-align: center;
+}
+
+.return a {
+	text-decoration: none;
+	color: white;
+	font-size: 20;
+	font-family: 'Cantarell', sans-serif;
+	font-weight: bold;
+}
+
+.return a:hover {
+	text-decoration: none;
+	color: white;
+	font-size: 25;
+	font-family: 'Cantarell', sans-serif;
+	font-weight: bold;
+}
+
 /* Radio Buttons */
 .radio {
 	margin-right: 20;
@@ -83,5 +120,6 @@ h2 {
 	background-color: white;
 	color: #E84A5F;
 	font-family: 'Cantarell', sans-serif;
+	font-size: 15;
 	font-weight: bold;
 }

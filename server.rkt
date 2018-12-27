@@ -167,7 +167,12 @@
   (define (response-generator embed/url)
     (response/xexpr
      `(html
-       (head (title "RKT-LIB"))
+       (head
+        (title "RKT-LIB")
+        (link ((href
+                "http://fonts.googleapis.com/css?family=Fjalla+One|Cantarell:400,400italic,700italic,700")
+               (rel "stylesheet") (type "text/css")))
+        (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body
         (h1 "RKT-LIB")
         (h2 "No matching results found")
@@ -177,8 +182,9 @@
          (li "Make sure all words are spelled correctly.")
          (li "Try different key words.")
          (li "Try more general key words."))
-        (a ((href ,(embed/url start)))
-           "Return to search page...")))))
+        (div ((class "return"))
+             (a ((href ,(embed/url start)))
+                "Return to search page..."))))))
   (send/suspend/dispatch response-generator))
 
 ;; results : request -> response
@@ -186,15 +192,21 @@
   (define (response-generator embed/url)
     (response/xexpr
      `(html
-       (head (title "RKT-LIB"))
+       (head
+        (title "RKT-LIB")
+        (link ((href
+                "http://fonts.googleapis.com/css?family=Fjalla+One|Cantarell:400,400italic,700italic,700")
+               (rel "stylesheet") (type "text/css")))
+        (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body
         (h1 "RKT-LIB")
         (h2 "Results")
         ,(render-books
           (entries->books
            (search (parse-search (request-bindings request)))))
-        (a ((href ,(embed/url start)))
-           "Return to search page...")))))
+        (div ((class "return"))
+             (a ((href ,(embed/url start)))
+                "Return to search page..."))))))
     (send/suspend/dispatch response-generator))
         
 ;; start : request -> response
