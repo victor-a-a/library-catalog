@@ -126,6 +126,7 @@
 ;; A function to render the html representation of list of books
 (define (render-books books)
   `(div ((class "books"))
+        (h2 "Results")
         ,@(map render-book books)))
 
 ;; home-page : request -> response
@@ -200,7 +201,6 @@
         (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body
         (h1 "RKT-LIB")
-        (h2 "Results")
         ,(render-books
           (entries->books
            (search (parse-search (request-bindings request)))))
