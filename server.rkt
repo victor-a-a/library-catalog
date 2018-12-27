@@ -134,17 +134,33 @@
      '(html
        (head
         (title "RKT-LIB")
+        (link ((href
+                "http://fonts.googleapis.com/css?family=Fjalla+One|Cantarell:400,400italic,700italic,700")
+               (rel "stylesheet") (type "text/css")))
         (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body
         (h1 "RKT-LIB")
-        (h2 "Search")
-        (form
-         (input ((type "radio") (name "search-by") (value "title"))) (bdi "Title")
-         (input ((type "radio") (name "search-by") (value "author"))) (bdi "Author")
-         (input ((type "radio") (name "search-by") (value "isbn"))) (bdi "ISBN")
-         (input ((type "radio") (name "search-by") (value "owner"))) (bdi "Owner")
-         (br)
-         (input ((type "text") (name "search-request"))))))))
+        (div ((class "search-bar"))
+             (h2 "Search")
+             (form
+              (label ((class "radio"))
+                     (input ((type "radio") (name "search-by") (value "title")))
+                     (span ((class "checkmark")))
+                     "Title")
+              (label ((class "radio"))
+                     (input ((type "radio") (name "search-by") (value "author")))
+                     (span ((class "checkmark")))
+                     "Author")
+              (label ((class "radio"))
+                     (input ((type "radio") (name "search-by") (value "isbn")))
+                     (span ((class "checkmark")))
+                     "ISBN")
+              (label ((class "radio"))
+                     (input ((type "radio") (name "search-by") (value "owner")))
+                     (span ((class "checkmark")))
+                     "Owner")
+              (br)
+              (input ((type "text") (name "search-request")))))))))
 
 ;; no-results : requests -> response
 (define (no-results request)
