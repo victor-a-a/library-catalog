@@ -122,12 +122,19 @@
               ,location " | " ,owner (br)
               ,isbn " | " ,status))]))
 
+;; render-first : book -> xexpr
+;; A function to render the html representation of the first book
+(define (render-first book)
+  `(div ((class "first"))
+        (h2 "Results")
+        ,(render-book book)))
+
 ;; render-books : (listof book) -> xexper
 ;; A function to render the html representation of list of books
 (define (render-books books)
   `(div ((class "books"))
-        (h2 "Results")
-        ,@(map render-book books)))
+        ,(render-first (first books))
+        ,@(map render-book (list-tail books 1))))
 
 ;; home-page : request -> response
 (define (home-page request)
@@ -137,6 +144,9 @@
         (title "RKT-LIB")
         (link ((href
                 "http://fonts.googleapis.com/css?family=Fjalla+One|Cantarell:400,400italic,700italic,700")
+               (rel "stylesheet") (type "text/css")))
+        (link ((href
+                "https://fonts.googleapis.com/css?family=Lato|Vollkorn")
                (rel "stylesheet") (type "text/css")))
         (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body
@@ -173,6 +183,9 @@
         (link ((href
                 "http://fonts.googleapis.com/css?family=Fjalla+One|Cantarell:400,400italic,700italic,700")
                (rel "stylesheet") (type "text/css")))
+        (link ((href
+                "https://fonts.googleapis.com/css?family=Lato|Vollkorn")
+               (rel "stylesheet") (type "text/css")))
         (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body
         (h1 "RKT-LIB")
@@ -197,6 +210,9 @@
         (title "RKT-LIB")
         (link ((href
                 "http://fonts.googleapis.com/css?family=Fjalla+One|Cantarell:400,400italic,700italic,700")
+               (rel "stylesheet") (type "text/css")))
+        (link ((href
+                "https://fonts.googleapis.com/css?family=Lato|Vollkorn")
                (rel "stylesheet") (type "text/css")))
         (link ((rel "stylesheet") (href "/default.css") (type "text/css"))))
        (body

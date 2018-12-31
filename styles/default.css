@@ -1,3 +1,6 @@
+/* Pastel Rose */
+/* by Victor A. */
+
 /* General Purpose */
 
 body {
@@ -157,6 +160,15 @@ ul {
 	margin: auto;
 	margin-top: 100;
 	text-align: center;
+}
+
+.books .first {
+	display: inline-block;
+	text-align: left
+}
+
+.books .first h2 {
+	margin-left: 20;
 }
 
 .books .book {
