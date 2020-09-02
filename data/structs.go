@@ -14,9 +14,9 @@ type BookData struct {
   Language      string
   Format        string
   CopyNum       int
-  Owner         string
+  Owner         int
   Location      string
-  Status        string
+  Status        int
   Condition     string
   Privacy       string
 }
