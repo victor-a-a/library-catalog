@@ -59,6 +59,7 @@ func GetBookData(isbn string) (*BookData, error) {
     return nil, err
   }
 
+  // Loading data into struct
   if temp.TotalItems == 0 {
     return nil, errors.New("ISBN not in records")
   }

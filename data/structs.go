@@ -18,4 +18,5 @@ type BookData struct {
   Location      string
   Status        string
   Condition     string
+  Privacy       string
 }
