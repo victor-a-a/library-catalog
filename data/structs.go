@@ -1,7 +1,5 @@
 package data
 
-const API_KEY = "AIzaSyBBlxBSRVl8sK4crq2x5qRCFbLfXxj1CK0"
-
 type BookData struct {
   Title         string
   Authors       []string

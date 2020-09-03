@@ -1,10 +1,12 @@
 package data
 
 import (
+  . "victoraa/library-catalog/verify"
   "encoding/json"
   "net/http"
   "io/ioutil"
   "errors"
+  "log"
 )
 
 // LOCAL STRUCTS FOR PARSING JSON //
