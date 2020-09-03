@@ -1,4 +1,4 @@
-package verify
+package auth
 
 // This is where to place API keys and loging details for email accounts
 

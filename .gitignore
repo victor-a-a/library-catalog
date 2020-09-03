@@ -1,2 +1,2 @@
 *.exe
-verify.go
+auth/credentials.go

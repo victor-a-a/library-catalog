@@ -1,7 +1,7 @@
 package data
 
 import (
-  . "victoraa/library-catalog/verify"
+  . "victoraa/library-catalog/auth"
   "encoding/json"
   "net/http"
   "io/ioutil"
