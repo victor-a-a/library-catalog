@@ -18,3 +18,10 @@ type BookData struct {
   Condition     string
   Privacy       string
 }
+
+type PageData struct {
+  FirstName     string
+  LastName      string
+  ID            string
+  Books         []BookData
+}
