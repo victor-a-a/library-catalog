@@ -11,12 +11,12 @@ type BookData struct {
   Category      []string
   Language      string
   Format        string
-  CopyNum       int
-  Owner         int
+  ID            string
+  Owner         string
   Location      string
   Status        int
-  Condition     string
-  Privacy       string
+  Condition     int
+  Privacy       int
 }
 
 type PageData struct {
