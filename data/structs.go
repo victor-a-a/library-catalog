@@ -1,6 +1,7 @@
 package data
 
 type BookData struct {
+  ID            string
   Title         string
   Authors       []string
   Publisher     string
@@ -11,7 +12,6 @@ type BookData struct {
   Category      []string
   Language      string
   Format        string
-  ID            string
   Owner         string
   Location      string
   Status        int
@@ -20,10 +20,10 @@ type BookData struct {
 }
 
 type UserData struck {
+  ID            string
   FirstName     string
   LastName      string
   UserName      string
-  ID            string
   Role          int
 }
 
