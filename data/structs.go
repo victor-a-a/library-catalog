@@ -19,12 +19,18 @@ type BookData struct {
   Privacy       int
 }
 
-type UserData struck {
+type UserData struct {
   ID            string
   FirstName     string
   LastName      string
   UserName      string
   Role          int
+}
+
+type ReadingData struct {
+  UserID        string
+  BookID        string
+  Status        int
 }
 
 type PageData struct {
