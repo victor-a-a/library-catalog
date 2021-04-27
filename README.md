@@ -1,2 +1,2 @@
-# libray-catalog (WIP)
-A library catalog built using Racket as a personal project.
+# virtual-bookshelf (WIP)
+A library catalog built using Go as a personal project.
