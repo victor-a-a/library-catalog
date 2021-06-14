@@ -7,4 +7,5 @@ import (
 
 func MakeRoutes() {
 	http.HandleFunc("/user/addbook", handlers.HandleAddBook)
+	http.HandleFunc("/user/addbook/autofill", handlers.HandleAutofill)
 }

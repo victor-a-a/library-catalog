@@ -17,10 +17,17 @@
   <body>
     <h1>Add Book</h1>
 
-    <form action="/user/addbook" style="text-align: center;" method="post">
-      <input type="text" id="isbn" name="isbn" required>
-      <input style="display: inline-block; margin: 0 10px" type="submit" name="Autofill" value="Autofill">
-    </form>
+    <div>
+      <h2>Auto Fill</h2>
+      <form action="/user/addbook/autofill" style="text-align: center;" method="post">
+        <input type="text" id="isbn" name="isbn" required>
+        <input style="display: inline-block; margin: 0 10px" type="submit" name="autofill" value="autofill"> 
+      </form>
+    </div>
+
+    <div>
+      <h2>Manual Fill</h2>
+    </div>
 
   </body>
 </html>

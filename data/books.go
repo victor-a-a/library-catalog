@@ -1,17 +1,16 @@
 package data
 
 import (
-  . "victoraa/library-catalog/auth"
+  . "victoraa/virtual-bookshelf/auth"
   "encoding/json"
   "net/http"
   "io/ioutil"
   "errors"
-  "log"
 )
 
 // LOCAL STRUCTS FOR PARSING JSON //
 type Identifiers struct {
-  Type        string             `json:"type"`
+  Type        string               `json:"type"`
   Identifier    string             `json:"identifier"`
 }
 
