@@ -1,9 +1,15 @@
 package main
 
 import (
-  "victoraa/library-catalog/data"
+  "log"
+  "net/http"
+  "victoraa/virtual-bookshelf/routes"
+  "victoraa/virtual-bookshelf/templates"
 )
 
 func main() {
-  data.GetBookData("9780805210576")
+  routes.MakeRoutes()
+  templates.MakeTemplates()
+  log.Printf("Running Server")
+  http.ListenAndServe(":8080", nil)
 }

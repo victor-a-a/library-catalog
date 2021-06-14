@@ -1,24 +1,25 @@
-package templating
+package templates
 
 import (
   "html/template"
   "log"
 )
 
+var Templates *template.Template
+
 var templateList = []string{
-	"html/browse"
-  "html/footer"
-  "html/header"
-  "html/mybooks"
-  "html/navbar"
+	"html/addbook.html",
+	"html/browse.html",
+	"html/mybooks.html",
+	"html/navbar.html",
+	"html/header.html",
+  	"html/footer.html",
 }
 
-func GenerateTemplates() *template.Template{
-	var Templates *template.Template
+func MakeTemplates() {
 	var err error
 	Templates, err = template.New("").ParseFiles(templateList...)
 	if err != nil {
 		log.Printf("Error parsing templates: %v", err)
 	}
-  return Templates
 }
