@@ -20,13 +20,13 @@ type ImageLink struct {
 
 type VolumeInfo struct {
   Title         string            `json:"title"`
+  SubTitle      string            `json:"subtitle"`
   Authors       []string          `json:"authors"`
   Publisher     string            `json:"publisher"`
   PublishDate   string            `json:"publishedDate"`
   Identifiers   []Identifiers     `json:"industryIdentifiers"`
   Category      []string          `json:"categories"`
   ImageLink     ImageLink         `json:"imageLinks"`
-  Language      string            `json:"language"`
 }
 
 type Item struct {
@@ -66,19 +66,22 @@ func GetBookData(isbn string) (*BookData, error) {
   }
 
   data := BookData{
-    Title: temp.Items[0].VolumeInfo.Title,
     Authors: temp.Items[0].VolumeInfo.Authors,
     Publisher: temp.Items[0].VolumeInfo.Publisher,
     PublishDate: temp.Items[0].VolumeInfo.PublishDate,
     Cover: temp.Items[0].VolumeInfo.ImageLink.Cover,
     Category: temp.Items[0].VolumeInfo.Category,
-    Language: temp.Items[0].VolumeInfo.Language,
   }
-  if len(isbn) == 13 {
-    data.ISBN13 = isbn
-  } else if len(isbn) == 10 {
-    data.ISBN10 = isbn
+  if temp.Items[0].VolumeInfo.SubTitle == "" {
+    data.Title = temp.Items[0].VolumeInfo.Title
+  } else {
+    data.Title = temp.Items[0].VolumeInfo.Title + ": " + temp.Items[0].VolumeInfo.SubTitle
   }
+  // if len(isbn) == 13 {
+  //   data.ISBN13 = isbn
+  // } else if len(isbn) == 10 {
+  //   data.ISBN10 = isbn
+  // }
   for _, j := range temp.Items[0].VolumeInfo.Identifiers {
     if j.Type == "ISBN_10" {
       data.ISBN10 = j.Identifier
